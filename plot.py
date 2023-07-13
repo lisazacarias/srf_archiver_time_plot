@@ -61,7 +61,7 @@ class Plot(Display):
         
         for idx, cav_num in enumerate(self.selected_cavities):
             color = colors[idx]
-            rga_color = QColor(r=color[0], g=color[1], b=color[2], alpha=color[3])
+            rga_color = QColor(color[0], color[1], color[2], color[3])
             cavity = cm_obj.cavities[cav_num]
             self.ui.plot.addYChannel(y_channel=cavity.pv_addr(self.ui.suffix_line_edit.text()),
                                      useArchiveData=True, color=rga_color)
