@@ -1,8 +1,11 @@
 from typing import Dict
 
+import numpy as np
+from PyQt5.QtGui import QColor
 from PyQt5.QtWidgets import QCheckBox
 from lcls_tools.superconducting.scLinac import CRYOMODULE_OBJECTS
 from lcls_tools.superconducting.sc_linac_utils import ALL_CRYOMODULES
+from matplotlib import pyplot as plt
 from pydm import Display
 
 
@@ -52,10 +55,16 @@ class Plot(Display):
         
         cm_obj = CRYOMODULE_OBJECTS[self.ui.cm_combobox.currentText()]
         
-        for cav_num in self.selected_cavities:
+        colormap = plt.cm.nipy_spectral
+        colors = colormap(np.linspace(0, 1, len(self.selected_cavities)),
+                          bytes=True)
+        
+        for idx, cav_num in enumerate(self.selected_cavities):
+            color = colors[idx]
+            rga_color = QColor(r=color[0], g=color[1], b=color[2], alpha=color[3])
             cavity = cm_obj.cavities[cav_num]
             self.ui.plot.addYChannel(y_channel=cavity.pv_addr(self.ui.suffix_line_edit.text()),
-                                     useArchiveData=True)
+                                     useArchiveData=True, color=rga_color)
         
         self.ui.plot.setAutoRangeY(self.ui.autoscale_checkbox.isChecked())
         self.ui.plot.setMinYRange(self.ui.ymin_spinbox.value())
