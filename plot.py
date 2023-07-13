@@ -55,7 +55,7 @@ class Plot(Display):
         
         cm_obj = CRYOMODULE_OBJECTS[self.ui.cm_combobox.currentText()]
         
-        colormap = plt.cm.rainbow
+        colormap = plt.cm.gist_rainbow
         colors = colormap(np.linspace(0, 1, len(self.selected_cavities)),
                           bytes=True)
         
